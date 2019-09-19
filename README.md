@@ -1,2 +1,1 @@
-# valr-go
-Go API Client for Valr
+# Valr Golang API Client
