@@ -4,7 +4,7 @@ import "github.com/shopspring/decimal"
 
 /*
 PUBLIC API GET REQUESTS
- */
+*/
 
 // GetOrderBookRequest is the request struct for GetOrderBook.
 type GetOrderBookRequest struct {
@@ -53,11 +53,9 @@ type GetServerTimeRequest struct {
 	// Empty
 }
 
-
 /*
 PRIVATE API GET REQUESTS
- */
-
+*/
 
 type GetAccountBalancesRequest struct {
 	// https://api.valr.com/v1/account/balances
@@ -69,7 +67,7 @@ type GetTransactionHistoryRequest struct {
 	// Skip
 	// Limit
 	// required: false
-	Skip int `json:"skip" param:"currencyPair"`
+	Skip  int `json:"skip" param:"currencyPair"`
 	Limit int `json:"limit" param:"skip"`
 }
 
@@ -79,8 +77,8 @@ type GetTradeHistoryForPairRequest struct {
 	// required: true
 	// Limit
 	// required: false
-	Pair string `json:"currencyPair" url:"currencyPair"`
-	Limit int   `json:"limit" param:"limit"`
+	Pair  string `json:"currencyPair" url:"currencyPair"`
+	Limit int    `json:"limit" param:"limit"`
 }
 
 type GetDepositAddressRequest struct {
@@ -134,7 +132,7 @@ type GetBankAccountForAssetRequest struct {
 	// https://api.valr.com/v1/wallet/fiat/:currencyCode/accounts
 	// Currency Code
 	// required: true
-	Asset string `json:"currencyCode" url:"currencyCode"`
+	Asset string `json:"currencyCode" url:"currencyCode"` // note: ZAR is the only supported asset at this time
 }
 
 type GetAuthOrderBookRequest struct {
@@ -157,8 +155,8 @@ type GetAuthTradeHistoryForPairRequest struct {
 	// required: true
 	// Limit
 	// required: false
-	Pair string `json:"currencyPair" url:"currencyPair"`
-	Limit int   `json:"limit" param:"limit"`
+	Pair  string `json:"currencyPair" url:"currencyPair"`
+	Limit int    `json:"limit" param:"limit"`
 }
 
 type GetSimpleBuyOrSellOrderStatusRequest struct {
@@ -198,15 +196,15 @@ type GetOrderHistoryRequest struct {
 	// Skip
 	// Limit
 	// required: false
-	Skip  int    `json:"skip" param:"skip"`
-	Limit int    `json:"limit" param:"limit"`
+	Skip  int `json:"skip" param:"skip"`
+	Limit int `json:"limit" param:"limit"`
 }
 
 type GetOrderHistorySummaryByOrderIDRequest struct {
-	 // https://api.valr.com/v1/orders/history/summary/orderid/:orderId
-	 // Order ID
-	 // required: true
-	 ID string `json:"orderId" url:"orderId"`
+	// https://api.valr.com/v1/orders/history/summary/orderid/:orderId
+	// Order ID
+	// required: true
+	ID string `json:"orderId" url:"orderId"`
 }
 
 type GetOrderHistorySummaryByCustomerOrderIDRequest struct {
@@ -232,7 +230,7 @@ type GetOrderHistoryDetailsByCustomerOrderIDRequest struct {
 
 /*
 PRIVATE API POST REQUESTS
- */
+*/
 
 type PostNewCryptoWithdrawRequest struct {
 	// https://api.valr.com/v1/wallet/crypto/:currencyCode/withdraw
@@ -240,9 +238,9 @@ type PostNewCryptoWithdrawRequest struct {
 	// Amount
 	// Address
 	// required: true
-	Asset string `json:"currencyCode" url:"currencyCode"`
-	Amount decimal.Decimal `json:"amount" body:"amount"`
-	Address string `json:"address" body:"address"`
+	Asset   string          `json:"currencyCode" url:"currencyCode"`
+	Amount  decimal.Decimal `json:"amount" body:"amount"`
+	Address string          `json:"address" body:"address"`
 }
 
 type PostNewFiatWithdrawRequest struct {
@@ -251,9 +249,9 @@ type PostNewFiatWithdrawRequest struct {
 	// Amount
 	// BankAccountID
 	// required: true
-	Asset string `json:"currencyCode" url:"currencyCode"`
-	Amount decimal.Decimal `json:"amount" body:"amount"`
-	BankAccountID string `json:"linkedBankAccountId" body:"linkedBankAccountId"`
+	Asset         string          `json:"currencyCode" url:"currencyCode"`
+	Amount        decimal.Decimal `json:"amount" body:"amount"`
+	BankAccountID string          `json:"linkedBankAccountId" body:"linkedBankAccountId"`
 }
 
 type PostSimpleBuyOrSellQuoteRequest struct {
@@ -263,10 +261,10 @@ type PostSimpleBuyOrSellQuoteRequest struct {
 	// Pay amount
 	// Side
 	// required: true
-	Pair string `json:"currencyPair" url:"currencyPair"`
-	PayInCurrency string `json:"payInCurrency" body:"payInCurrency"`
-	PayAmount decimal.Decimal `json:"payAmount" body:"payAmount"`
-	Side Side `json:"side" body:"side"`
+	Pair          string          `json:"currencyPair" url:"currencyPair"`
+	PayInCurrency string          `json:"payInCurrency" body:"payInCurrency"`
+	PayAmount     decimal.Decimal `json:"payAmount" body:"payAmount"`
+	Side          RequestSide     `json:"side" body:"side"`
 }
 
 type PostSimpleBuyOrSellOrderRequest struct {
@@ -276,10 +274,10 @@ type PostSimpleBuyOrSellOrderRequest struct {
 	// Pay amount
 	// Side
 	// required: true
-	Pair string `json:"currencyPair" url:"currencyPair"`
-	PayInCurrency string `json:"payInCurrency" body:"payInCurrency"`
-	PayAmount decimal.Decimal `json:"payAmount" body:"payAmount"`
-	Side Side `json:"side" body:"side"`
+	Pair          string          `json:"currencyPair" url:"currencyPair"`
+	PayInCurrency string          `json:"payInCurrency" body:"payInCurrency"`
+	PayAmount     decimal.Decimal `json:"payAmount" body:"payAmount"`
+	Side          RequestSide     `json:"side" body:"side"`
 }
 
 type PostLimitOrderRequest struct {
@@ -292,12 +290,12 @@ type PostLimitOrderRequest struct {
 	// Post Only
 	// Customer Order ID
 	// required: false
-	Pair string `json:"pair" body:"pair"`
-	Quantity decimal.Decimal `json:"quantity" body:"quantity"`
-	Price decimal.Decimal `json:"price" body:"price"`
-	Side Side `json:"side" body:"side"`
-	PostOnly bool `json:"postOnly" body:"postOnly"`
-	CustomerOrderID string `json:"customerOrderId" body:"customerOderId"`
+	Pair            string          `json:"pair" body:"pair"`
+	Quantity        decimal.Decimal `json:"quantity" body:"quantity"`
+	Price           decimal.Decimal `json:"price" body:"price"`
+	Side            RequestSide     `json:"side" body:"side"`
+	PostOnly        bool            `json:"postOnly" body:"postOnly"`
+	CustomerOrderID string          `json:"customerOrderId" body:"customerOderId"`
 }
 
 type PostMarketOrderRequest struct {
@@ -308,15 +306,15 @@ type PostMarketOrderRequest struct {
 	// required: true
 	// Customer Order ID
 	// required: false
-	Pair string `json:"pair" body:"pair"`
-	Quantity decimal.Decimal `json:"quoteAmount" body:"quoteAmount"`
-	Side Side `json:"side" body:"side"`
-	CustomerOrderID string `json:"customerOrderId" body:"customerOderId"`
+	Pair            string          `json:"pair" body:"pair"`
+	Quantity        decimal.Decimal `json:"quoteAmount" body:"quoteAmount"`
+	Side            RequestSide     `json:"side" body:"side"`
+	CustomerOrderID string          `json:"customerOrderId" body:"customerOderId"`
 }
 
 /*
 PRIVATE API DEL REQUESTS
- */
+*/
 
 type DelOrderRequest struct {
 	// https://api.valr.com/v1/orders/order
@@ -324,5 +322,5 @@ type DelOrderRequest struct {
 	// Order ID
 	// required: true
 	Pair string `json:"pair" body:"pair"`
-	ID string `json:"orderId" body:"orderId"`
+	ID   string `json:"orderId" body:"orderId"`
 }
