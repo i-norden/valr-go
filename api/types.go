@@ -6,6 +6,7 @@ import (
 	"github.com/shopspring/decimal"
 )
 
+// OrderBookEntry is a single entry in an OrderBook
 type OrderBookEntry struct {
 	Price      decimal.Decimal `json:"price"`
 	Quantity   decimal.Decimal `json:"quantity"`
@@ -14,11 +15,13 @@ type OrderBookEntry struct {
 	OrderCount int             `json:"orderCount"`
 }
 
+// OrderBook holds OrderBookEntries
 type OrderBook struct {
 	Asks []OrderBookEntry `json:"Asks"`
 	Bids []OrderBookEntry `json:"Bids"`
 }
 
+// CurrencyInfo holds info for a specific asset
 type CurrencyInfo struct {
 	Symbol    string `json:"symbol"`
 	Active    bool   `json:"isActive"`
@@ -26,6 +29,7 @@ type CurrencyInfo struct {
 	LongName  string `json:"longName"`
 }
 
+// PairInfo holds info for a specific pair
 type PairInfo struct {
 	Symbol         string          `json:"symbol"`
 	BaseCurrency   string          `json:"baseCurrency"`
@@ -38,11 +42,13 @@ type PairInfo struct {
 	MaxQuoteAmount decimal.Decimal `json:"maxQuoteAmount"`
 }
 
+// OrderTypes associates order types with a specific pair
 type OrderTypes struct {
 	Pair       string   `json:"currencyPair"`
 	OrderTypes []string `json:"orderTypes"`
 }
 
+// MarketSummary holds market summary information
 type MarketSummary struct {
 	Pair               string          `json:"currencyPair"`
 	AskPrice           decimal.Decimal `json:"askPrice"`
@@ -56,6 +62,7 @@ type MarketSummary struct {
 	ChangeFromPrevious int             `json:"changeFromPrevious"`
 }
 
+// AccountBalance represent the balance info for a specific asset
 type AccountBalance struct {
 	Currency  string          `json:"currency"`
 	Available decimal.Decimal `json:"available"`
@@ -63,6 +70,7 @@ type AccountBalance struct {
 	Total     decimal.Decimal `json:"total"`
 }
 
+// TransactionInfo holds transaction info
 type TransactionInfo struct {
 	TransactionType TransactionType           `json:"transactionType"`
 	DebitCurrency   string                    `json:"debitCurrency"`
@@ -75,11 +83,13 @@ type TransactionInfo struct {
 	AdditionalInfo  AdditionalTransactionInfo `json:"additionalInfo"`
 }
 
+// TransactionType associates a transction type with its description
 type TransactionType struct {
 	Type        string `json:"type"`
 	Description string `json:"description"`
 }
 
+// AdditionalTransactionInfo holds additional info for a transaction
 type AdditionalTransactionInfo struct {
 	CostPerCoin        decimal.Decimal `json:"costPerCoin"`
 	CostPerCoinSymbol  string          `json:"costPerCoinSymbol"`
@@ -87,6 +97,7 @@ type AdditionalTransactionInfo struct {
 	OrderID            string          `json:"orderId"`
 }
 
+// TradeInfo holds info about a specific trade
 type TradeInfo struct {
 	Price    decimal.Decimal `json:"price"`
 	Quantity decimal.Decimal `json:"quantity"`
@@ -96,6 +107,7 @@ type TradeInfo struct {
 	TradeID  int             `json:"tradeId"`
 }
 
+// DepositInfo holds info about a specific deposit
 type DepositInfo struct {
 	CurrencyCode    string          `json:"currencyCode"`
 	ReceiveAddress  string          `json:"receiveAddress"`
@@ -107,6 +119,7 @@ type DepositInfo struct {
 	ConfirmedAt     time.Time       `json:"confirmedAt"`
 }
 
+// WithdrawInfo holds info about a specific withdraw
 type WithdrawInfo struct {
 	Currency           string          `json:"currency"`
 	Address            string          `json:"address"`
@@ -121,6 +134,7 @@ type WithdrawInfo struct {
 	State              string          `json:"status"`
 }
 
+// BankInfo holds data related to a bank account
 type BankInfo struct {
 	ID            string    `json:"id"`
 	Bank          string    `json:"bank"`
@@ -131,6 +145,7 @@ type BankInfo struct {
 	CreatedAt     time.Time `json:"createdAt"`
 }
 
+// TradeHistoryInfo is the data for a specific trade in trade history
 type TradeHistoryInfo struct {
 	Price      decimal.Decimal `json:"price"`
 	Quantity   decimal.Decimal `json:"quantity"`
@@ -141,6 +156,7 @@ type TradeHistoryInfo struct {
 	ID         string          `json:"id"`
 }
 
+// OpenOrder holds info for an open order on the market
 type OpenOrder struct {
 	OrderID           string          `json:"orderId"`
 	Side              ResponseSide    `json:"side"`
@@ -153,6 +169,7 @@ type OpenOrder struct {
 	CustomerOrderID   string          `json:"customerOrderId"`
 }
 
+// OrderReceipt collects info for a successful order
 type OrderReceipt struct {
 	OrderID          string          `json:"orderId"`
 	CustomerOrderID  string          `json:"customerOrderId"`
@@ -171,6 +188,7 @@ type OrderReceipt struct {
 	OrderCreatedAt   time.Time       `json:"orderCreatedAt"`
 }
 
+// OrderStatus holds info related to the status of a specific order
 type OrderStatus struct {
 	OrderID           string          `json:"orderId"`
 	OrderStatusType   string          `json:"orderStatusType"`
@@ -186,10 +204,12 @@ type OrderStatus struct {
 	CustomerOrderID   string          `json:"customerOrderId"`
 }
 
+// IDResponse is a struct to hold an id response from the api
 type IDResponse struct {
 	ID string `json:"id"`
 }
 
+// RequestSide type for explicitly representing the two options
 type RequestSide string
 
 const (
@@ -197,6 +217,7 @@ const (
 	SELL RequestSide = "SELL"
 )
 
+// ResponseSide type for explicitly representing the two options
 type ResponseSide string
 
 const (
