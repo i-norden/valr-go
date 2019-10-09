@@ -140,8 +140,12 @@ func (cl *Client) do(ctx context.Context, method, path string,
 		httpReq.Header.Set("X-VALR-API-KEY", cl.apiKeyPub)
 		now := time.Now()
 		timestampString := strconv.FormatInt(now.UnixNano()/1000000, 10)
+		var bodyStr string
 		path := strings.Replace(url, "https://api.valr.com/api", "", -1)
-		signature := signRequest(cl.apiKeySecret, timestampString, method, path, body)
+		if b, err := ioutil.ReadAll(body); err == nil {
+			bodyStr = string(b)
+		}
+		signature := signRequest(cl.apiKeySecret, timestampString, method, path, bodyStr)
 		httpReq.Header.Set("X-VALR-SIGNATURE", signature)
 		httpReq.Header.Set("X-VALR-TIMESTAMP", timestampString) // This might need to be in unix format
 	}
