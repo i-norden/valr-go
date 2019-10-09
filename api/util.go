@@ -7,8 +7,8 @@ import (
 	"strconv"
 )
 
-// makeURLValues converts a request struct into a url.Values map.
-func makeURLValues(v interface{}) (url.Values, error) {
+// MakeURLValues converts a request struct into a url.Values map.
+func MakeURLValues(v interface{}) (url.Values, error) {
 	values := make(url.Values)
 
 	valElem := reflect.ValueOf(v).Elem()

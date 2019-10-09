@@ -110,7 +110,7 @@ func (cl *Client) do(ctx context.Context, method, path string,
 	var body io.Reader
 	var bodyStr string
 	if req != nil {
-		values, err := makeURLValues(req)
+		values, err := MakeURLValues(req)
 		if err != nil {
 			return err
 		}
