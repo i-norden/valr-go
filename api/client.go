@@ -107,8 +107,8 @@ func (cl *Client) do(ctx context.Context, method, path string,
 		log.Printf("valr: Request: %#v", req)
 	}
 
-	var contentType string
 	var body io.Reader
+	var bodyStr string
 	if req != nil {
 		values, err := makeURLValues(req)
 		if err != nil {
@@ -122,8 +122,8 @@ func (cl *Client) do(ctx context.Context, method, path string,
 		if method == http.MethodGet {
 			url = url + "?" + values.Encode()
 		} else {
-			body = strings.NewReader(values.Encode())
-			contentType = "application/x-www-form-urlencoded"
+			bodyStr = values.Encode()
+			body = strings.NewReader(bodyStr)
 		}
 	}
 
@@ -132,26 +132,19 @@ func (cl *Client) do(ctx context.Context, method, path string,
 		return err
 	}
 	httpReq = httpReq.WithContext(ctx)
-	if contentType != "" {
-		httpReq.Header.Set("Content-Type", contentType)
+
+	if method != http.MethodGet {
+		httpReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	}
 
 	if auth {
 		httpReq.Header.Set("X-VALR-API-KEY", cl.apiKeyPub)
 		now := time.Now()
 		timestampString := strconv.FormatInt(now.UnixNano()/1000000, 10)
-		var bodyStr string
 		path := strings.Replace(url, "https://api.valr.com/api", "", -1)
-		if b, err := ioutil.ReadAll(body); err == nil {
-			bodyStr = string(b)
-		}
 		signature := signRequest(cl.apiKeySecret, timestampString, method, path, bodyStr)
 		httpReq.Header.Set("X-VALR-SIGNATURE", signature)
 		httpReq.Header.Set("X-VALR-TIMESTAMP", timestampString) // This might need to be in unix format
-	}
-
-	if method != http.MethodGet {
-		httpReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	}
 
 	httpRes, err := cl.httpClient.Do(httpReq)
@@ -208,7 +201,7 @@ func findTag(str string) (string, string) {
 	if leftIndex > 0 {
 		rightIndex := strings.Index(str[leftIndex:], "}")
 		if rightIndex >= 0 {
-			return str[leftIndex+1 : rightIndex-leftIndex], str[rightIndex:]
+			return str[leftIndex+1 : rightIndex+leftIndex], str[rightIndex+leftIndex:]
 		}
 	}
 	return "", ""
