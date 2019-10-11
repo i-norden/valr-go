@@ -15,30 +15,20 @@ type GetOrderBookResponse struct {
 	OrderBook
 }
 
-// GetCurrenciesResponse is the struct that GetCurrencies responses are unpacked into
-type GetCurrenciesResponse struct {
-	Currencies []CurrencyInfo
-}
+// GetCurrenciesResponse is the type that GetCurrencies responses are unpacked into
+type GetCurrenciesResponse []CurrencyInfo
 
-// GetCurrencyPairsResponse is the struct that GetCurrencyPairs responses are unpacked into
-type GetCurrencyPairsResponse struct {
-	CurrencyPairs []PairInfo
-}
+// GetCurrencyPairsResponse is the type that GetCurrencyPairs responses are unpacked into
+type GetCurrencyPairsResponse []PairInfo
 
-// GetOrderTypesResponse is the struct that GetOrderTypes responses are unpacked into
-type GetOrderTypesResponse struct {
-	OrderTypes []OrderTypes
-}
+// GetOrderTypesResponse is the type that GetOrderTypes responses are unpacked into
+type GetOrderTypesResponse []OrderTypes
 
-// GetOrderTypesForPairResponse is the struct that GetOrderTypesForPair responses are unpacked into
-type GetOrderTypesForPairResponse struct {
-	OrderTypes []string
-}
+// GetOrderTypesForPairResponse is the type that GetOrderTypesForPair responses are unpacked into
+type GetOrderTypesForPairResponse []string
 
-// GetMarketSummaryResponse is the struct that GetMarketSummary responses are unpacked into
-type GetMarketSummaryResponse struct {
-	Markets []MarketSummary
-}
+// GetMarketSummaryResponse is the type that GetMarketSummary responses are unpacked into
+type GetMarketSummaryResponse []MarketSummary
 
 // GetMarketSummaryForPairResponse is the struct that GetMarketSummaryForPair responses are unpacked into
 type GetMarketSummaryForPairResponse struct {
@@ -55,20 +45,14 @@ type GetServerTimeResponse struct {
 PRIVATE API GET RESPONSES
 */
 
-// GetAccountBalancesResponse is the struct that GetAccountBalances responses are unpacked into
-type GetAccountBalancesResponse struct {
-	Balances []AccountBalance
-}
+// GetAccountBalancesResponse is the type that GetAccountBalances responses are unpacked into
+type GetAccountBalancesResponse []AccountBalance
 
-// GetTransactionHistoryResponse is the struct that GetTransactionHistory responses are unpacked into
-type GetTransactionHistoryResponse struct {
-	Transactions []TransactionInfo
-}
+// GetTransactionHistoryResponse is the type that GetTransactionHistory responses are unpacked into
+type GetTransactionHistoryResponse []TransactionInfo
 
-// GetTradeHistoryForPairResponse is the struct that GetTradeHistoryForPair responses are unpacked into
-type GetTradeHistoryForPairResponse struct {
-	Trades []TradeInfo
-}
+// GetTradeHistoryForPairResponse is the type that GetTradeHistoryForPair responses are unpacked into
+type GetTradeHistoryForPairResponse []TradeInfo
 
 // GetDepositAddressResponse is the struct that GetDepositAddress responses are unpacked into
 type GetDepositAddressResponse struct {
@@ -90,20 +74,14 @@ type GetWithdrawStatusResponse struct {
 	WithdrawInfo
 }
 
-// GetDepositHistoryForAssetResponse is the struct that GetDepositHistoryForAsset responses are unpacked into
-type GetDepositHistoryForAssetResponse struct {
-	Deposits []DepositInfo
-}
+// GetDepositHistoryForAssetResponse is the type that GetDepositHistoryForAsset responses are unpacked into
+type GetDepositHistoryForAssetResponse []DepositInfo
 
-// GetWithdrawHistoryForAssetResponse is the struct that GetWithdrawHistoryForAsset responses are unpacked into
-type GetWithdrawHistoryForAssetResponse struct {
-	Withdraws []WithdrawInfo
-}
+// GetWithdrawHistoryForAssetResponse is the type that GetWithdrawHistoryForAsset responses are unpacked into
+type GetWithdrawHistoryForAssetResponse []WithdrawInfo
 
-// GetBankAccountForAssetResponse is the struct that GetBankAccountForAsset responses are unpacked into
-type GetBankAccountForAssetResponse struct {
-	BankAccounts []BankInfo
-}
+// GetBankAccountForAssetResponse is the type that GetBankAccountForAsset responses are unpacked into
+type GetBankAccountForAssetResponse []BankInfo
 
 // GetAuthOrderBookResponse is the struct that GetAuthOrderBook responses are unpacked into
 type GetAuthOrderBookResponse struct {
@@ -115,10 +93,8 @@ type GetAuthFullOrderBookResponse struct {
 	OrderBook
 }
 
-// GetAuthTradeHistoryForPairResponse is the struct that GetAuthTradeHistoryForPair responses are unpacked into
-type GetAuthTradeHistoryForPairResponse struct {
-	Trades []TradeHistoryInfo
-}
+// GetAuthTradeHistoryForPairResponse is the type that GetAuthTradeHistoryForPair responses are unpacked into
+type GetAuthTradeHistoryForPairResponse []TradeHistoryInfo
 
 // GetSimpleBuyOrSellOrderStatusResponse is the struct that GetSimpleBuyOrSellOrderStatus responses are unpacked into
 type GetSimpleBuyOrSellOrderStatusResponse struct {
@@ -154,15 +130,11 @@ type GetOrderStatusByCustomerOrderIDResponse struct {
 	GetOrderStatusByOrderIDResponse
 }
 
-// GetAllOpenOrdersResponse is the struct that GetAllOpenOrders responses are unpacked into
-type GetAllOpenOrdersResponse struct {
-	Orders []OpenOrder
-}
+// GetAllOpenOrdersResponse is the type that GetAllOpenOrders responses are unpacked into
+type GetAllOpenOrdersResponse []OpenOrder
 
-// GetOrderHistoryResponse is the struct that GetOrderHistory responses are unpacked into
-type GetOrderHistoryResponse struct {
-	Orders []OrderReceipt
-}
+// GetOrderHistoryResponse is the type that GetOrderHistory responses are unpacked into
+type GetOrderHistoryResponse []OrderReceipt
 
 // GetOrderHistorySummaryByOrderIDResponse is the struct that GetOrderHistorySummaryByOrderID responses are unpacked into
 type GetOrderHistorySummaryByOrderIDResponse struct {
@@ -203,15 +175,11 @@ type GetOrderHistorySummaryByCustomerOrderIDResponse struct {
 	OrderCreatedAt    time.Time       `json:"orderCreatedAt"`
 }
 
-// GetOrderHistoryDetailsByOrderIDResponse is the struct that GetOrderHistoryDetailsByOrderID responses are unpacked into
-type GetOrderHistoryDetailsByOrderIDResponse struct {
-	OrderStatuses []OrderStatus
-}
+// GetOrderHistoryDetailsByOrderIDResponse is the type that GetOrderHistoryDetailsByOrderID responses are unpacked into
+type GetOrderHistoryDetailsByOrderIDResponse []OrderStatus
 
-// GetOrderHistoryDetailsByCustomerOrderIDResponse is the struct that GetOrderHistoryDetailsByCustomerOrderID responses are unpacked into
-type GetOrderHistoryDetailsByCustomerOrderIDResponse struct {
-	OrderStatuses []OrderStatus
-}
+// GetOrderHistoryDetailsByCustomerOrderIDResponse is the type that GetOrderHistoryDetailsByCustomerOrderID responses are unpacked into
+type GetOrderHistoryDetailsByCustomerOrderIDResponse []OrderStatus
 
 /*
 PRIVATE API POST RESPONSES
@@ -219,12 +187,12 @@ PRIVATE API POST RESPONSES
 
 // PostNewCryptoWithdrawResponse is the struct that PostNewCryptoWithdraw responses are unpacked into
 type PostNewCryptoWithdrawResponse struct {
-	IDResponse
+	ID string `json:"id"`
 }
 
 // PostNewFiatWithdrawResponse is the struct that PostNewFiatWithdraw responses are unpacked into
 type PostNewFiatWithdrawResponse struct {
-	IDResponse
+	ID string `json:"id"`
 }
 
 // PostSimpleBuyOrSellQuoteResponse is the struct that PostSimpleBuyOrSellQuote responses are unpacked into
@@ -246,12 +214,12 @@ type PostSimpleBuyOrSellOrderResponse struct {
 
 // PostLimitOrderResponse is the struct that PostLimitOrder responses are unpacked into
 type PostLimitOrderResponse struct {
-	IDResponse
+	ID string `json:"id"`
 }
 
 // PostMarketOrderResponse is the struct that PostMarketOrder responses are unpacked into
 type PostMarketOrderResponse struct {
-	IDResponse
+	ID string `json:"id"`
 }
 
 /*

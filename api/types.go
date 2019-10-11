@@ -59,7 +59,7 @@ type MarketSummary struct {
 	HighPrice          decimal.Decimal `json:"highPrice"`
 	LowPrice           decimal.Decimal `json:"lowPrice"`
 	Created            time.Time       `json:"created"`
-	ChangeFromPrevious int             `json:"changeFromPrevious"`
+	ChangeFromPrevious string          `json:"changeFromPrevious"`
 }
 
 // AccountBalance represent the balance info for a specific asset
@@ -202,11 +202,6 @@ type OrderStatus struct {
 	OrderUpdatedAt    time.Time       `json:"orderUpdatedAt"`
 	OrderCreatedAt    time.Time       `json:"orderCreatedAt"`
 	CustomerOrderID   string          `json:"customerOrderId"`
-}
-
-// IDResponse is a struct to hold an id response from the api
-type IDResponse struct {
-	ID string `json:"id"`
 }
 
 // RequestSide type for explicitly representing the two options

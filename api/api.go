@@ -493,7 +493,29 @@ func (cl *Client) PostLimitOrderRequest(ctx context.Context, req *PostLimitOrder
 	return &res, nil
 }
 
-// PostMarketOrderRequest
+// PostMarketBuyRequest
+//
+// Create a new market order.
+// When the response is 202 Accepted, you can either use the Order Status REST API or use WebSocket API to receive updates about this order.
+//
+// Example request body:
+//
+//{
+//    "side": "BUY",
+//    "quoteAmount": "0.100000",
+//    "pair": "BTCZAR",
+//    "customerOrderId": "1234"
+//}
+func (cl *Client) PostMarketBuyRequest(ctx context.Context, req *PostMarketOrderBuyRequest) (*PostMarketOrderResponse, error) {
+	var res PostMarketOrderResponse
+	err := cl.do(ctx, http.MethodPost, "/orders/market", req, &res, true)
+	if err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+// PostMarketBuyRequest
 //
 // Create a new market order.
 // When the response is 202 Accepted, you can either use the Order Status REST API or use WebSocket API to receive updates about this order.
@@ -506,7 +528,7 @@ func (cl *Client) PostLimitOrderRequest(ctx context.Context, req *PostLimitOrder
 //    "pair": "BTCZAR",
 //    "customerOrderId": "1234"
 //}
-func (cl *Client) PostMarketOrderRequest(ctx context.Context, req *PostMarketOrderRequest) (*PostMarketOrderResponse, error) {
+func (cl *Client) PostMarketSellRequest(ctx context.Context, req *PostMarketOrderSellRequest) (*PostMarketOrderResponse, error) {
 	var res PostMarketOrderResponse
 	err := cl.do(ctx, http.MethodPost, "/orders/market", req, &res, true)
 	if err != nil {

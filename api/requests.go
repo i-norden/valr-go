@@ -331,8 +331,8 @@ type PostLimitOrderRequest struct {
 	CustomerOrderID string          `json:"customerOrderId"`
 }
 
-// PostMarketOrderRequest is the request struct for PostMarketOrder
-type PostMarketOrderRequest struct {
+// PostMarketOrderBuyRequest is the request struct for PostMarketOrder
+type PostMarketOrderBuyRequest struct {
 	// https://api.valr.com/v1/orders/market
 	// Currency Pair
 	// Quantity
@@ -342,6 +342,21 @@ type PostMarketOrderRequest struct {
 	// required: false
 	Pair            string          `json:"pair"`
 	Quantity        decimal.Decimal `json:"quoteAmount"`
+	Side            RequestSide     `json:"side"`
+	CustomerOrderID string          `json:"customerOrderId"`
+}
+
+// PostMarketOrderBuyRequest is the request struct for PostMarketOrder
+type PostMarketOrderSellRequest struct {
+	// https://api.valr.com/v1/orders/market
+	// Currency Pair
+	// Quantity
+	// Side
+	// required: true
+	// Customer Order ID
+	// required: false
+	Pair            string          `json:"pair"`
+	Quantity        decimal.Decimal `json:"baseAmount"`
 	Side            RequestSide     `json:"side"`
 	CustomerOrderID string          `json:"customerOrderId"`
 }

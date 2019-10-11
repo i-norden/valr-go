@@ -18,21 +18,6 @@ import (
 	"time"
 )
 
-// Error is a Valr error
-type Error struct {
-	// Code can be used to identify errors even if the error message is
-	// localised.
-	Code string `json:"error_code"`
-
-	// Message may be localised for authenticated API calls.
-	Message string `json:"error"`
-}
-
-// Error method to fit error interface
-func (e *Error) Error() string {
-	return e.Message
-}
-
 // Client is a Valr API client.
 type Client struct {
 	httpClient   *http.Client
@@ -42,21 +27,15 @@ type Client struct {
 	debug        bool
 }
 
-const defaultBaseURL = "https://api.valr.com/api/v1"
+const defaultBaseURL = "https://api.valr.com/v1"
 
 const defaultTimeout = 10 * time.Second
 
 // NewClient creates a new Valr API client with the default base URL.
-func NewClient(baseURL string) *Client {
-	if baseURL == "" {
-		return &Client{
-			httpClient: &http.Client{Timeout: defaultTimeout},
-			baseURL:    defaultBaseURL,
-		}
-	}
+func NewClient() *Client {
 	return &Client{
 		httpClient: &http.Client{Timeout: defaultTimeout},
-		baseURL:    baseURL,
+		baseURL:    defaultBaseURL,
 	}
 }
 
@@ -119,7 +98,7 @@ func (cl *Client) do(ctx context.Context, method, path string,
 			url = strings.Replace(url, "{"+tag+"}", values.Get(tag), -1)
 			values.Del(tag)
 		}
-		if method == http.MethodGet {
+		if method == http.MethodGet && values.Encode() != "" {
 			url = url + "?" + values.Encode()
 		} else {
 			bodyStr = values.Encode()
@@ -141,7 +120,7 @@ func (cl *Client) do(ctx context.Context, method, path string,
 		httpReq.Header.Set("X-VALR-API-KEY", cl.apiKeyPub)
 		now := time.Now()
 		timestampString := strconv.FormatInt(now.UnixNano()/1000000, 10)
-		path := strings.Replace(url, "https://api.valr.com/api", "", -1)
+		path := strings.Replace(url, "https://api.valr.com", "", -1)
 		signature := signRequest(cl.apiKeySecret, timestampString, method, path, bodyStr)
 		httpReq.Header.Set("X-VALR-SIGNATURE", signature)
 		httpReq.Header.Set("X-VALR-TIMESTAMP", timestampString) // This might need to be in unix format
@@ -169,12 +148,8 @@ func (cl *Client) do(ctx context.Context, method, path string,
 	}
 
 	if httpRes.StatusCode != http.StatusOK {
-		var e Error
-		if err := json.NewDecoder(body).Decode(&e); err != nil {
-			return fmt.Errorf("valr: error decoding response (%d %s)",
-				httpRes.StatusCode, http.StatusText(httpRes.StatusCode))
-		}
-		return fmt.Errorf("valr: %s (%s)", e.Message, e.Code)
+		return fmt.Errorf("valr: error response (%d %s)",
+			httpRes.StatusCode, http.StatusText(httpRes.StatusCode))
 	}
 
 	return json.NewDecoder(body).Decode(res)
