@@ -98,6 +98,11 @@ func (cl *Client) do(ctx context.Context, method, path string,
 			url = strings.Replace(url, "{"+tag+"}", values.Get(tag), -1)
 			values.Del(tag)
 		}
+		for key := range values {
+			if values.Get(key) == "" {
+				values.Del(key)
+			}
+		}
 		if method == http.MethodGet && values.Encode() != "" {
 			url = url + "?" + values.Encode()
 		} else {
@@ -113,7 +118,7 @@ func (cl *Client) do(ctx context.Context, method, path string,
 	httpReq = httpReq.WithContext(ctx)
 
 	if method != http.MethodGet {
-		httpReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		httpReq.Header.Set("Content-Type", "application/json")
 	}
 
 	if auth {
@@ -121,7 +126,7 @@ func (cl *Client) do(ctx context.Context, method, path string,
 		now := time.Now()
 		timestampString := strconv.FormatInt(now.UnixNano()/1000000, 10)
 		path := strings.Replace(url, "https://api.valr.com", "", -1)
-		signature := signRequest(cl.apiKeySecret, timestampString, method, path, bodyStr)
+		signature := signRequest(cl.apiKeySecret, timestampString, method, path)
 		httpReq.Header.Set("X-VALR-SIGNATURE", signature)
 		httpReq.Header.Set("X-VALR-TIMESTAMP", timestampString) // This might need to be in unix format
 	}
@@ -141,10 +146,6 @@ func (cl *Client) do(ctx context.Context, method, path string,
 			log.Printf("Response: %s", string(b))
 		}
 		body = bytes.NewReader(b)
-	}
-
-	if httpRes.StatusCode == http.StatusTooManyRequests {
-		return errors.New("valr: too many requests")
 	}
 
 	if httpRes.StatusCode != http.StatusOK {
@@ -182,14 +183,13 @@ func findTag(str string) (string, string) {
 	return "", ""
 }
 
-func signRequest(apiSecret string, timestampString, verb, path string, body string) string {
+func signRequest(apiSecret string, timestampString, verb, path string) string {
 	// Create a new Keyed-Hash Message Authentication Code (HMAC) using SHA512 and API Secret
 	mac := hmac.New(sha512.New, []byte(apiSecret))
 
 	mac.Write([]byte(timestampString))
 	mac.Write([]byte(strings.ToUpper(verb)))
 	mac.Write([]byte(path))
-	mac.Write([]byte(body))
 	// Gets the byte hash from HMAC and converts it into a hex string
 	return hex.EncodeToString(mac.Sum(nil))
 }

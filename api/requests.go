@@ -76,8 +76,8 @@ type GetTransactionHistoryRequest struct {
 	// Skip
 	// Limit
 	// required: false
-	Skip  int `json:"skip"`
-	Limit int `json:"limit"`
+	Skip  int `json:"skip" url:"skip"`
+	Limit int `json:"limit" url:"limit"`
 }
 
 // GetTradeHistoryForPairRequest is the request struct for GetTradeHistoryForPair
@@ -88,7 +88,7 @@ type GetTradeHistoryForPairRequest struct {
 	// Limit
 	// required: false
 	Pair  string `json:"currencyPair" url:"currencyPair"`
-	Limit int    `json:"limit"`
+	Limit int    `json:"limit" url:"limit"`
 }
 
 // GetDepositAddressRequest is the request struct for GetDepositAddress
@@ -126,8 +126,8 @@ type GetDepositHistoryForAssetRequest struct {
 	// Limit
 	// required: false
 	Asset string `json:"currencyCode" url:"currencyCode"`
-	Skip  int    `json:"skip"`
-	Limit int    `json:"limit"`
+	Skip  int    `json:"skip" url:"skip"`
+	Limit int    `json:"limit" url:"limit"`
 }
 
 // GetWithdrawHistoryForAssetRequest is the request struct for GetWithdrawHistoryForAsset
@@ -139,8 +139,8 @@ type GetWithdrawHistoryForAssetRequest struct {
 	// Limit
 	// required: false
 	Asset string `json:"currencyCode" url:"currencyCode"`
-	Skip  int    `json:"skip"`
-	Limit int    `json:"limit"`
+	Skip  int    `json:"skip" url:"skip"`
+	Limit int    `json:"limit" url:"limit"`
 }
 
 // GetBankAccountForAssetRequest is the request struct for GetBankAccountForAsset
@@ -175,7 +175,7 @@ type GetAuthTradeHistoryForPairRequest struct {
 	// Limit
 	// required: false
 	Pair  string `json:"currencyPair" url:"currencyPair"`
-	Limit int    `json:"limit"`
+	Limit int    `json:"limit" url:"limit"`
 }
 
 // GetSimpleBuyOrSellOrderStatusRequest is the request struct for GetSimpleBuyOrSellOrderStatus
@@ -220,8 +220,8 @@ type GetOrderHistoryRequest struct {
 	// Skip
 	// Limit
 	// required: false
-	Skip  int `json:"skip"`
-	Limit int `json:"limit"`
+	Skip  int `json:"skip" url:"skip"`
+	Limit int `json:"limit" url:"limit"`
 }
 
 // GetOrderHistorySummaryByOrderIDRequest is the request struct for GetOrderHistorySummaryByOrderID
@@ -268,8 +268,8 @@ type PostNewCryptoWithdrawRequest struct {
 	// Address
 	// required: true
 	Asset   string          `json:"currencyCode" url:"currencyCode"`
-	Amount  decimal.Decimal `json:"amount"`
-	Address string          `json:"address"`
+	Amount  decimal.Decimal `json:"amount" url:"amount"`
+	Address string          `json:"address" url:"address"`
 }
 
 // PostNewFiatWithdrawRequest is the request struct for PostNewFiatWithdraw
@@ -280,8 +280,8 @@ type PostNewFiatWithdrawRequest struct {
 	// BankAccountID
 	// required: true
 	Asset         string          `json:"currencyCode" url:"currencyCode"`
-	Amount        decimal.Decimal `json:"amount"`
-	BankAccountID string          `json:"linkedBankAccountId"`
+	Amount        decimal.Decimal `json:"amount" url:"amount"`
+	BankAccountID string          `json:"linkedBankAccountId" url:"linkedBankAccountId"`
 }
 
 // PostSimpleBuyOrSellQuoteRequest is the request stuct for PostSimpleBuyOrSellQuote
@@ -293,9 +293,9 @@ type PostSimpleBuyOrSellQuoteRequest struct {
 	// Side
 	// required: true
 	Pair          string          `json:"currencyPair" url:"currencyPair"`
-	PayInCurrency string          `json:"payInCurrency"`
-	PayAmount     decimal.Decimal `json:"payAmount"`
-	Side          RequestSide     `json:"side"`
+	PayInCurrency string          `json:"payInCurrency" url:"payInCurrency"`
+	PayAmount     decimal.Decimal `json:"payAmount" url:"payAmount"`
+	Side          RequestSide     `json:"side" url:"side"`
 }
 
 // PostSimpleBuyOrSellOrderRequest is the request struct for PostSimpleBuyOrSellOrder
@@ -307,9 +307,9 @@ type PostSimpleBuyOrSellOrderRequest struct {
 	// Side
 	// required: true
 	Pair          string          `json:"currencyPair" url:"currencyPair"`
-	PayInCurrency string          `json:"payInCurrency"`
-	PayAmount     decimal.Decimal `json:"payAmount"`
-	Side          RequestSide     `json:"side"`
+	PayInCurrency string          `json:"payInCurrency" url:"payInCurrency"`
+	PayAmount     decimal.Decimal `json:"payAmount" url:"payAmount"`
+	Side          RequestSide     `json:"side" url:"side"`
 }
 
 // PostLimitOrderRequest is the request struct for PostLimitOrder
@@ -323,12 +323,12 @@ type PostLimitOrderRequest struct {
 	// Post Only
 	// Customer Order ID
 	// required: false
-	Pair            string          `json:"pair"`
-	Quantity        decimal.Decimal `json:"quantity"`
-	Price           decimal.Decimal `json:"price"`
-	Side            RequestSide     `json:"side"`
-	PostOnly        bool            `json:"postOnly"`
-	CustomerOrderID string          `json:"customerOrderId"`
+	Pair            string          `json:"pair" url:"pair"`
+	Quantity        decimal.Decimal `json:"quantity" url:"quantity"`
+	Price           decimal.Decimal `json:"price" url:"price"`
+	Side            RequestSide     `json:"side" url:"side"`
+	PostOnly        bool            `json:"postOnly" url:"postOnly"`
+	CustomerOrderID string          `json:"customerOrderId" url:"customerOrderId"`
 }
 
 // PostMarketOrderBuyRequest is the request struct for PostMarketOrder
@@ -340,10 +340,10 @@ type PostMarketOrderBuyRequest struct {
 	// required: true
 	// Customer Order ID
 	// required: false
-	Pair            string          `json:"pair"`
-	Quantity        decimal.Decimal `json:"quoteAmount"`
-	Side            RequestSide     `json:"side"`
-	CustomerOrderID string          `json:"customerOrderId"`
+	Side            RequestSide     `json:"side" url:"side"`
+	Quantity        decimal.Decimal `json:"quoteAmount" url:"quoteAmount"`
+	Pair            string          `json:"pair" url:"pair"`
+	CustomerOrderID string          `json:"customerOrderId" url:"customerOrderId"`
 }
 
 // PostMarketOrderBuyRequest is the request struct for PostMarketOrder
@@ -355,10 +355,10 @@ type PostMarketOrderSellRequest struct {
 	// required: true
 	// Customer Order ID
 	// required: false
-	Pair            string          `json:"pair"`
-	Quantity        decimal.Decimal `json:"baseAmount"`
-	Side            RequestSide     `json:"side"`
-	CustomerOrderID string          `json:"customerOrderId"`
+	Side            RequestSide     `json:"side" url:"side"`
+	Quantity        decimal.Decimal `json:"baseAmount" url:"baseAmount"`
+	Pair            string          `json:"pair" url:"pair"`
+	CustomerOrderID string          `json:"customerOrderId" url:"customerOrderId"`
 }
 
 /*
@@ -371,6 +371,6 @@ type DelOrderRequest struct {
 	// Currency Pair
 	// Order ID
 	// required: true
-	Pair string `json:"pair"`
-	ID   string `json:"orderId"`
+	Pair string `json:"pair" url:"pair"`
+	ID   string `json:"orderId" url:"orderId"`
 }
