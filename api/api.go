@@ -562,10 +562,6 @@ func (cl *Client) DelOrderRequest(ctx context.Context, req *DelOrderRequest) (*D
 	return &res, nil
 }
 
-/*
-PRIVATE API DEL REQUESTS
-*/
-
 // DelOrderByCustomerOrderIDRequest
 //
 // Cancel an open order.
