@@ -230,3 +230,8 @@ PRIVATE API DEL RESPONSES
 type DelOrderResponse struct {
 	// Empty 202 Response
 }
+
+// DelOrderByCustomerOrderIDResponse is the struct that DelOrder responses are unpacked into
+type DelOrderByCustomerOrderIDResponse struct {
+	// Empty 202 Response
+}
