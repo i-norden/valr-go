@@ -9,7 +9,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -86,8 +85,7 @@ func (cl *Client) do(ctx context.Context, method, path string,
 		log.Printf("valr: Request: %#v", req)
 	}
 
-	var body io.Reader
-	var bodyStr string
+	var body []byte
 	if req != nil {
 		values, err := MakeURLValues(req)
 		if err != nil {
@@ -106,12 +104,11 @@ func (cl *Client) do(ctx context.Context, method, path string,
 		if method == http.MethodGet && values.Encode() != "" {
 			url = url + "?" + values.Encode()
 		} else {
-			bodyStr = values.Encode()
-			body = strings.NewReader(bodyStr)
+			body = []byte(values.Encode())
 		}
 	}
 
-	httpReq, err := http.NewRequest(method, url, body)
+	httpReq, err := http.NewRequest(method, url, bytes.NewReader(body))
 	if err != nil {
 		return err
 	}
@@ -126,7 +123,7 @@ func (cl *Client) do(ctx context.Context, method, path string,
 		now := time.Now()
 		timestampString := strconv.FormatInt(now.UnixNano()/1000000, 10)
 		path := strings.Replace(url, "https://api.valr.com", "", -1)
-		signature := signRequest(cl.apiKeySecret, timestampString, method, path)
+		signature := signRequest(cl.apiKeySecret, timestampString, method, path, body)
 		httpReq.Header.Set("X-VALR-SIGNATURE", signature)
 		httpReq.Header.Set("X-VALR-TIMESTAMP", timestampString) // This might need to be in unix format
 	}
@@ -137,15 +134,12 @@ func (cl *Client) do(ctx context.Context, method, path string,
 	}
 	defer httpRes.Body.Close()
 
-	body = httpRes.Body
+	body, err = ioutil.ReadAll(httpRes.Body)
+	if err != nil {
+		return err
+	}
 	if cl.debug {
-		b, err := ioutil.ReadAll(body)
-		if err != nil {
-			log.Printf("valr: Error reading response body: %v", err)
-		} else {
-			log.Printf("Response: %s", string(b))
-		}
-		body = bytes.NewReader(b)
+		log.Printf("Response: %s", string(body))
 	}
 
 	if httpRes.StatusCode != http.StatusOK {
@@ -153,7 +147,7 @@ func (cl *Client) do(ctx context.Context, method, path string,
 			httpRes.StatusCode, http.StatusText(httpRes.StatusCode))
 	}
 
-	return json.NewDecoder(body).Decode(res)
+	return json.Unmarshal(body, res)
 }
 
 func findTags(str string) []string {
@@ -183,13 +177,14 @@ func findTag(str string) (string, string) {
 	return "", ""
 }
 
-func signRequest(apiSecret string, timestampString, verb, path string) string {
+func signRequest(apiSecret string, timestampString, verb, path string, body []byte) string {
 	// Create a new Keyed-Hash Message Authentication Code (HMAC) using SHA512 and API Secret
 	mac := hmac.New(sha512.New, []byte(apiSecret))
 
 	mac.Write([]byte(timestampString))
 	mac.Write([]byte(strings.ToUpper(verb)))
 	mac.Write([]byte(path))
+	mac.Write(body)
 	// Gets the byte hash from HMAC and converts it into a hex string
 	return hex.EncodeToString(mac.Sum(nil))
 }

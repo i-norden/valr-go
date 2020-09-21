@@ -561,3 +561,24 @@ func (cl *Client) DelOrderRequest(ctx context.Context, req *DelOrderRequest) (*D
 	}
 	return &res, nil
 }
+
+// DelOrderByCustomerOrderIDRequest
+//
+// Cancel an open order.
+// A 202 Accepted response means the request to cancel the order was accepted.
+// You can either use the Order Status REST API or use WebSocket API to receive status update about this request.
+//
+// The DELETE request requires a JSON request body in the following format:
+//
+//{
+//  "customerOrderId": "^[0-9a-zA-Z-]{0,50}$",
+//  "pair": "BTCZAR"
+//}
+func (cl *Client) DelOrderByCustomerOrderIDRequest(ctx context.Context, req *DelOrderByCustomerOrderIDRequest) (*DelOrderByCustomerOrderIDResponse, error) {
+	var res DelOrderByCustomerOrderIDResponse
+	err := cl.do(ctx, http.MethodDelete, "/orders/order", req, &res, true)
+	if err != nil {
+		return nil, err
+	}
+	return &res, nil
+}

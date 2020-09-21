@@ -374,3 +374,14 @@ type DelOrderRequest struct {
 	Pair string `json:"pair" url:"pair"`
 	ID   string `json:"orderId" url:"orderId"`
 }
+
+// DelOrderByCustomerOrderIDRequest is the request struct for DelOrderByCustomerOrderID
+type DelOrderByCustomerOrderIDRequest struct {
+	// https://api.valr.com/v1/orders/order
+	// Currency Pair
+	// required: true
+	Pair string `json:"pair" url:"pair"`
+	// Customer Order ID
+	// required: true
+	ID string `json:"customerOrderId" url:"customerOrderId"`
+}
