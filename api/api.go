@@ -157,7 +157,7 @@ func (cl *Client) GetTransactionHistoryRequest(ctx context.Context, req *GetTran
 // You can limit the number of trades returned by specifying the limit parameter.
 func (cl *Client) GetTradeHistoryForPairRequest(ctx context.Context, req *GetTradeHistoryForPairRequest) (*GetTradeHistoryForPairResponse, error) {
 	var res GetTradeHistoryForPairResponse
-	err := cl.do(ctx, http.MethodGet, "/account/:{currencyPair}/tradehistory", req, &res, true)
+	err := cl.do(ctx, http.MethodGet, "/account/{currencyPair}/tradehistory", req, &res, true)
 	if err != nil {
 		return nil, err
 	}
