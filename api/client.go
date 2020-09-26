@@ -147,7 +147,7 @@ func (cl *Client) do(ctx context.Context, method, path string,
 		log.Printf("Response: %s", string(body))
 	}
 
-	if httpRes.StatusCode != http.StatusOK {
+	if httpRes.StatusCode/100 != 2 {
 		return fmt.Errorf("valr: error response (%d %s)",
 			httpRes.StatusCode, http.StatusText(httpRes.StatusCode))
 	}
