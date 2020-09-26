@@ -1,4 +1,4 @@
-module github.com/Rellum/valr-go
+module github.com/i-norden/valr-go
 
 go 1.12
 
